@@ -86,7 +86,9 @@ module IKAOPM_reg #(parameter USE_BRAM_FOR_D32REG = 0, parameter FULLY_SYNCHRONO
     //input data for LSI test via bus registers
     input   wire            i_REG_PHASE_CH6_C2,
     input   wire            i_REG_ATTENLEVEL_CH8_C2,
-    input   wire    [13:0]  i_REG_OPDATA
+    input   wire    [13:0]  i_REG_OPDATA,
+
+    output wire [7:0] debug
 );
 
 
@@ -180,6 +182,8 @@ if(FULLY_SYNCHRONOUS == 0) begin : FULLY_SYNCHRONOUS_0_busctrl
         .i_EN(bus_inlatch_en), .i_D(i_D), .o_Q(bus_inlatch)
     );
 
+    assign debug = {bus_inlatch_en, i_CS_n, i_WR_n, i_RD_n, i_MRST_n, bus_inlatch[2:0]};
+
     //SR latch
     primitive_srlatch u_dreg_req_inlatch (
         .i_S(dreg_req_inlatch_set), .i_R(dreg_req_inlatch_rst), .o_Q(dreg_rq_inlatch)
@@ -222,6 +226,8 @@ else begin : FULLY_SYNCHRONOUS_1_busctrl
         .i_EMUCLK(i_EMUCLK), .i_RST_n(i_MRST_n),
         .i_EN(bus_inlatch_en), .i_D(din), .o_Q(bus_inlatch)
     );
+
+    assign debug = {bus_inlatch_en, 1, din[2:0], bus_inlatch[2:0]};
 
     //SR latch
     primitive_syncsrlatch u_dreg_req_inlatch (

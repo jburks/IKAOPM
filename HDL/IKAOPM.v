@@ -44,7 +44,9 @@ module IKAOPM #(parameter FULLY_SYNCHRONOUS = 1, parameter FAST_RESET = 0) (
 
     output  wire            o_EMU_R_SAMPLE, o_EMU_L_SAMPLE,
     output  wire signed     [15:0]  o_EMU_R_EX, o_EMU_L_EX,
-    output  wire signed     [15:0]  o_EMU_R, o_EMU_L
+    output  wire signed     [15:0]  o_EMU_R, o_EMU_L,
+
+    output wire [7:0] debug
 
     `ifdef IKAOPM_BUSY_FLAG_ENABLE
     , output  wire            o_EMU_BUSY_FLAG
@@ -205,7 +207,7 @@ IKAOPM_timinggen #(
 
 
 IKAOPM_reg #(
-    .USE_BRAM_FOR_D32REG        (0                          ),
+    .USE_BRAM_FOR_D32REG        (1                          ),
     .FULLY_SYNCHRONOUS          (FULLY_SYNCHRONOUS          )
 ) REG (
     .i_EMUCLK                   (i_EMUCLK                   ),
@@ -280,7 +282,8 @@ IKAOPM_reg #(
 
     .i_REG_PHASE_CH6_C2         (reg_phase_ch6_c2           ),
     .i_REG_ATTENLEVEL_CH8_C2    (reg_attenlevel_ch8_c2      ),
-    .i_REG_OPDATA               (acc_opdata                 )
+    .i_REG_OPDATA               (acc_opdata                 ),
+    .debug(debug)
 );
 
 

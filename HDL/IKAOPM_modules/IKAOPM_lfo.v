@@ -393,7 +393,7 @@ always @(*) begin
             2'd0: base_value_input = saw_value_stream;
         endcase
     end
-    else base_value_input <= 1'b0;
+    else base_value_input = 1'b0;
 end
 
 //base value shift register
