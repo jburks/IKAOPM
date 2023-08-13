@@ -44,9 +44,7 @@ module IKAOPM #(parameter FULLY_SYNCHRONOUS = 1, parameter FAST_RESET = 0) (
 
     output  wire            o_EMU_R_SAMPLE, o_EMU_L_SAMPLE,
     output  wire signed     [15:0]  o_EMU_R_EX, o_EMU_L_EX,
-    output  wire signed     [15:0]  o_EMU_R, o_EMU_L,
-
-    output wire [7:0] debug
+    output  wire signed     [15:0]  o_EMU_R, o_EMU_L
 
     `ifdef IKAOPM_BUSY_FLAG_ENABLE
     , output  wire            o_EMU_BUSY_FLAG
@@ -148,7 +146,7 @@ wire            timera_flag, timerb_flag, timera_ovfl;
 wire    [7:0]   test;
 wire            reg_phase_ch6_c2, reg_attenlevel_ch8_c2, reg_lfo_clk;
 
-//write busy flag(especially for external asynchronous fifo)
+//write busy flag(especially for an external asynchronous fifo)
 `ifdef IKAOPM_BUSY_FLAG_ENABLE
 assign  o_EMU_BUSY_FLAG = o_D[7];
 `endif
